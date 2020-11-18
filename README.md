@@ -9,6 +9,12 @@
 > npm run react-dev
 > npm run server-dev
 
+GET /api/productImages
+POST /api/productImages/create
+GET /api/productImages/read
+POST /api/productImages/update
+POST /api/productImages/deleteOne
+
 ### Installing Dependencies
 
 From within the root directory:
