@@ -18,7 +18,7 @@ app.listen(port, () => {
 
 app.get('/api/productImages', (req, res) => {
   const id = req.query.productId;
-
+  console.log('why');
   db.getProductImages(id, (err, results) => {
     if (err) {
       console.log(err);
@@ -45,6 +45,7 @@ app.post('/api/productImages/create', async (req, res) => {
 app.get('/api/productImages/read', async (req, res) => {
   const id = req.query.productId;
   const readOne = await db.read(id);
+  console.log(readOne)
   res.send('readOne');
 });
 
