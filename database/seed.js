@@ -29,12 +29,12 @@ const imagesPerProduct = {
 
 const seed = () => {
   const uniqProds = 50;
-  for (let i = 1; i <= 100; i += 1) {
+  for (let i = 1; i <= 10; i += 1) {
     const index = i % uniqProds !== 0 ? i % uniqProds : uniqProds;
     const imageCount = imagesPerProduct[index];
 
     for (let j = 1; j <= imageCount; j += 1) {
-      const q = `INSERT into product_images (id, product_id, s3_url) VALUES (null, ${i}, 'https://teamstructureshopping.s3.amazonaws.com/id${index}/image_${j}.png')`;
+      const q = `INSERT into product_images (id, product_id, s3_url) VALUES (null, ${i}, 'https://url.s3.amazonaws.com/id${index}/image_${j}.png')`;
 
       connection.query(q, (err) => {
         if (err) {
