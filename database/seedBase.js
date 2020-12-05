@@ -1,8 +1,8 @@
-const mysql = require('mysql');
-const mysqlConfig = require('/Users/sinamb/Documents/Programs/images-service/database/config.example.js');
 
-const connection = mysql.createConnection(mysqlConfig);
+const fs = require("fs");
 
+const writeImages = fs.createWriteStream('./data.csv');
+writeImages.write('id,product_id,s3_url\n', 'utf8');
 
 const iPP1 = {
   1: 4, 2: 13, 3: 7, 4: 1, 5: 12, 6: 3, 7: 12, 8: 6, 9: 5, 10: 10,
@@ -28,24 +28,34 @@ const imagesPerProduct = {
   ...iPP5,
 };
 
-const seed = () => {
-  const uniqProds = 50;
-  for (let i = 1; i <= 10000000; i += 1) {
-    const index = i % uniqProds !== 0 ? i % uniqProds : uniqProds;
-    const imageCount = imagesPerProduct[index];
 
-    for (let j = 1; j <= imageCount; j += 1) {
-      //console.log(j)
-      const q = `INSERT into product_images (id, product_id, s3_url) VALUES (null, ${i}, 'url.${index}/image_${j}.png')`;
-
-      connection.query(q, (err) => {
-        if (err) {
-          console.error(err);
-        }
-      });
+function writeTenMillionImages(writer, encoding, callback) {
+  let i = 10000000;
+  let id = 0;
+  function write() {
+    let ok = true;
+    do {
+      i -= 1;
+      id += 1;
+      const product_id = id;
+      const s3_url = `url.${id}/image_.png`;
+      const data = `null,${product_id},${s3_url}\n`;
+      if (i === 0) {
+        writer.write(data, encoding, callback);
+      } else {
+// see if we should continue, or wait
+// don't pass the callback, because we're not done yet.
+        ok = writer.write(data, encoding);
+      }
+    } while (i > 0 && ok);
+    if (i > 0) {
+// had to stop early!
+// write some more once it drains
+      writer.once('drain', write);
     }
   }
-  connection.end();
-};
-
-seed();
+write()
+}
+writeTenMillionImages(writeImages, 'utf-8', () => {
+  writeImages.end();
+});
