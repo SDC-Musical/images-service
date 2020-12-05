@@ -2,3 +2,4 @@ node_modules
 client/dist/bundle-images-service.js
 database/config.js
 database/config.example.js
+data.csv
