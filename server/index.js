@@ -18,7 +18,7 @@ app.listen(port, () => {
 
 app.get('/api/productImages', (req, res) => {
   const id = req.query.productId;
-
+  console.log('got here');
   db.getProductImages(id, (err, results) => {
     if (err) {
       console.log(err);
@@ -34,3 +34,30 @@ app.get('/api/productImages', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
+
+app.post('/api/productImages/create', async (req, res) => {
+  const image = req.body.image;
+  const createImage = await db.create(image);
+  res.end('done creating');
+});
+
+app.get('/api/productImages/read', async (req, res) => {
+  const id = req.query.productId;
+  const readOne = await db.read(id);
+  console.log(readOne)
+  res.send(readOne);
+});
+
+app.post('/api/productImages/update', async (req, res) => {
+  const id = req.query.productId;
+  const update = req.body.update;
+  const updateOne = await db.update(id, update);
+  res.end('done updating');
+});
+
+app.get('/api/productImages/delete', async (req, res) => {
+  const id = req.query.productId;
+  const deleteOne = await db.deleteOne(id);
+  res.end('done deleting');
+})

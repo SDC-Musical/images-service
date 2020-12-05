@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const request = require('supertest');
-const config = require('../../database/config.js');
+const config = require('../../database/config.example.js');
 const app = require('./server.js');
 
 const connection = mysql.createConnection(config);
