@@ -22,6 +22,7 @@ class ProductImagesService extends React.Component {
     const { productId } = this.state;
     $.ajax({
       url: 'http://localhost:3003/api/productImages',
+      method: 'GET',
       data: { productId },
       success: (results) => {
         this.setState({

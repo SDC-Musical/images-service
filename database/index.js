@@ -5,7 +5,7 @@ const hardCode = require('./hardCode.js');
 const connection = mysql.createConnection(mysqlConfig);
 
 const getProductImages = (productId, callback) => {
-  const q = `SELECT * FROM product_images WHERE product_id = ${productId}`;
+  const q = `SELECT * FROM product_images WHERE id = ${productId}`;
 
   connection.query(q, (err, results) => {
     if (err) {
@@ -30,9 +30,10 @@ const getProductImages = (productId, callback) => {
 
 const create = (incImage) => {
   const createOne = 'INSERT INTO product_images SET ?';
-
-  connection.query(createOne, [incImage], (err, results) => {
+  console.log(incImage);
+  connection.query(createOne, incImage, (err, results) => {
     if (err) {
+      console.log(err);
       console.log('ERROR when inserting new image in DB');
     } else {
       console.log(null, 'Inserted new image in DB');
@@ -40,41 +41,45 @@ const create = (incImage) => {
   })
 };
 
-const read = (id) => {
-  const readOne = 'SELECT * FROM product_images WHERE product_id = ?';
+// const read = (id, callback) => {
+//   console.log('reader')
+//   const readOne = 'SELECT * FROM product_images WHERE product_id = ?';
 
-  connection.query(readOne, [id], (err, results) => {
-    if (err) {
-      console.log(`ERROR when reading ${id}'s image in DB`);
-    } else {
-      console.log(null, results);
-    }
-  })
-}
+//   connection.query(readOne, [id], (err, results) => {
+//     if (err) {
+//       console.log(`ERROR when reading ${id}'s image in DB`);
+//     } else {
 
-const update = (id, data) => {
-  const updateImage = 'UPDATE product_images SET s3_url = ? WHERE product_id = ?';
+//       console.log(null, results);
+//       callback(null, results);
+//     }
+//   })
+// }
 
-  connection.query(updateImage, [data, id], (err, results) => {
+const update = (id, url, callback) => {
+  const updateImage = 'UPDATE product_images SET s3_url = ? WHERE id = ?';
+
+  connection.query(updateImage, [url, id], (err, results) => {
     if (err) {
       console.log(`ERROR when updating image ${id} in DB`);
     } else {
       console.log(null, results);
+      callback(null, results);
     }
   });
 };
 
 const deleteOne = (id) => {
-  const deleteOneImage = 'DELETE FROM product_images WHERE product_id = ?';
+  const deleteOneImage = 'DELETE FROM product_images WHERE id = ?';
 
   connection.query(deleteOneImage, [id], (err, results) => {
     if (err) {
       console.log(`ERROR when deleting review ${id} in DB`);
     } else {
-      console.log(null, 'Review has been deleted, yee haw partner');
+      console.log(null, 'done deleting');
     }
   })
 };
 
 
-module.exports = { getProductImages, create, read, deleteOne,update };
+module.exports = { getProductImages, create, deleteOne,update };
