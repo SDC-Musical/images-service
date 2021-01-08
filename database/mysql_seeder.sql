@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS images_service;
+
 CREATE DATABASE IF NOT EXISTS images_service;
 
 USE images_service;
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS product_images (
   PRIMARY KEY (id)
 );
 
-LOAD DATA LOCAL INFILE '../data.csv'
+LOAD DATA LOCAL INFILE '/Users/sinamb/Documents/Programs/images-service/data.csv'
 INTO TABLE product_images
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'

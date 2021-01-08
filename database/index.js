@@ -6,7 +6,7 @@ const connection = mysql.createConnection(mysqlConfig);
 
 const getProductImages = (productId, callback) => {
   const q = `SELECT * FROM product_images WHERE id = ${productId}`;
-
+  console.log(productId)
   connection.query(q, (err, results) => {
     if (err) {
       console.log('getProductImages error');
