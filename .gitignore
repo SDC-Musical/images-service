@@ -3,3 +3,6 @@ client/dist/bundle-images-service.js
 database/config.js
 database/config.example.js
 data.csv
+newrelic_agent.log
+newrelic.js
+database/k6script.js
