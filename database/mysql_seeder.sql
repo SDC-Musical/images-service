@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS product_images (
 );
 
 -- LOAD DATA LOCAL INFILE '/Users/sinamb/Documents/Programs/images-service/data.csv'
-LOAD DATA LOCAL INFILE '.../data.csv'
+LOAD DATA LOCAL INFILE '../data.csv'
 INTO TABLE product_images
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
