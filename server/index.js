@@ -25,9 +25,9 @@ app.use(compression());
 app.use('/', express.static(path.join(__dirname, '/../client/dist')));
 
 
-client.on('error', (err) => {
-  console.log("Error " + err);
-});
+// client.on('error', (err) => {
+//   console.log("Error " + err);
+// });
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
