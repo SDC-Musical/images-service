@@ -4,7 +4,7 @@ const path = require('path');
 const compression = require('compression');
 const db = require('../database/index.js');
 const router = require('./routes/routes.js');
-const redis = require('redis');
+// const redis = require('redis');
 const app = express();
 var bodyParser = require('body-parser');
 
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 const port = 3003;
-const client = redis.createClient(6379);
+// const client = redis.createClient(6379);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -35,59 +35,59 @@ app.listen(port, () => {
 
 
 // app.use('/api', router);
-let checkCache = (req, res, next) => {
-  const { id } = req.query.productId;
-  client.get(id, (err, data) => {
-    if (err) {
-    } if (data) {
-      console.log('data', data);
-      res.status(200).send(data);
-    } else {
-      next();
-    }
-  })
-}
+// let checkCache = (req, res, next) => {
+//   const { id } = req.query.productId;
+//   client.get(id, (err, data) => {
+//     if (err) {
+//     } if (data) {
+//       console.log('data', data);
+//       res.status(200).send(data);
+//     } else {
+//       next();
+//     }
+//   })
+// }
 
 
 
-app.get('/api/productImages', checkCache, (req, res) => {
-  // app.get('/api/productImages', () => {
-    const id = req.query.productId;
-    try {
-      if (id > 10000000 || typeof Number(id) !== 'number') {
-        console.log(1);
-        res.status(404).send('invalid id');
-      }
-      else {
-        //below function needs callback
-        db.getProductImages(id, (err, results) => {
-          if (err) {
-            console.error(err);
-            console.log(2);
-            res.status(500).json({
-            status: "Failed",
-          })
-        } else {
-          console.log('results', results[0].s3_url);
-          let productImage = results[0].s3_url;
-          console.log('productImage', productImage);
-          client.setex(id, 3600, JSON.stringify(productImage));
-          console.log(3);
-          res.json({
-            status: 'Success',
-            data: productImage
-          });
-        }
-      });
-    }
-  } catch (error) {
-    console.log(4);
-    console.error(error);
-    res.status(500).json({
-      status: "Failed",
-    });
-  }
-});
+// app.get('/api/productImages', checkCache, (req, res) => {
+//   // app.get('/api/productImages', () => {
+//     const id = req.query.productId;
+//     try {
+//       if (id > 10000000 || typeof Number(id) !== 'number') {
+//         console.log(1);
+//         res.status(404).send('invalid id');
+//       }
+//       else {
+//         //below function needs callback
+//         db.getProductImages(id, (err, results) => {
+//           if (err) {
+//             console.error(err);
+//             console.log(2);
+//             res.status(500).json({
+//             status: "Failed",
+//           })
+//         } else {
+//           console.log('results', results[0].s3_url);
+//           let productImage = results[0].s3_url;
+//           console.log('productImage', productImage);
+//           client.setex(id, 3600, JSON.stringify(productImage));
+//           console.log(3);
+//           res.json({
+//             status: 'Success',
+//             data: productImage
+//           });
+//         }
+//       });
+//     }
+//   } catch (error) {
+//     console.log(4);
+//     console.error(error);
+//     res.status(500).json({
+//       status: "Failed",
+//     });
+//   }
+// });
 
 
 
