@@ -39,8 +39,6 @@ let checkCache = (req, res, next) => {
   const { id } = req.query.productId;
   client.get(id, (err, data) => {
     if (err) {
-      // console.log('whyyyyyy');
-      // res.status(500).send(err);
     } if (data) {
       console.log('data', data);
       res.status(200).send(data);
