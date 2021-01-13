@@ -21,7 +21,7 @@ class ProductImagesService extends React.Component {
   componentDidMount() {
     const { productId } = this.state;
     $.ajax({
-      url: 'http://localhost:3003/api/productImages',
+      url: 'http://18.222.66.179:3003/api/productImages',
       method: 'GET',
       data: { productId },
       success: (results) => {
